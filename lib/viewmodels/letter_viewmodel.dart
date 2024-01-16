@@ -114,7 +114,7 @@ class LetterViewModel extends BaseModel {
           namaPemohon!,
           "-",
           "waiting",
-          "${namaDosenController.text} | ${dateController.text}",
+          "Nama Dosen ${namaDosenController.text} | Tanggal Dispensasi ${dateController.text}",
           nomorTelepon!,);
       if(data == null){
         _alertService.failedAlert("Gagal", "Internal server error", () {_navigationService.pop();});

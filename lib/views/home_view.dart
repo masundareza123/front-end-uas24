@@ -90,81 +90,83 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ),
-            model.loginStatus == true ? Container(
-              margin: EdgeInsets.only(top: 30, bottom: 30),
-              padding: EdgeInsets.all(10),
-              width: 100,
-              decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(16)),
-              child: Center(
-                child: InkWell(
-                  onTap: () {
-                    model.logOut();
-                  },
-                  child: Text(
-                    "Logout",
-                    style: firstStyle,
-                  ),
-                ),
-              ),
-            ) : Container(
-              margin: EdgeInsets.only(top: 30, bottom: 30),
-              padding: EdgeInsets.all(10),
-              width: 100,
-              decoration: BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.circular(16)),
-              child: Center(
-                child: InkWell(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return UnconstrainedBox(
-                          child: Container(
-                            height: 400,
-                            child: AlertDialog(
-                              title: Text('Form Login'),
-                              content: Column(
-                                children: <Widget>[
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      labelText: 'NIM',
+            model.loginStatus == true
+                ? Container(
+                    margin: EdgeInsets.only(top: 30, bottom: 30),
+                    padding: EdgeInsets.all(10),
+                    width: 100,
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Center(
+                      child: InkWell(
+                        onTap: () {
+                          model.logOut();
+                        },
+                        child: Text(
+                          "Logout",
+                          style: firstStyle,
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(
+                    margin: EdgeInsets.only(top: 30, bottom: 30),
+                    padding: EdgeInsets.all(10),
+                    width: 100,
+                    decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Center(
+                      child: InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return UnconstrainedBox(
+                                child: Container(
+                                  height: 400,
+                                  child: AlertDialog(
+                                    title: Text('Form Login'),
+                                    content: Column(
+                                      children: <Widget>[
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            labelText: 'NIM',
+                                          ),
+                                          controller: model.nimController,
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            labelText: 'Password',
+                                          ),
+                                          controller: model.passwordController,
+                                          obscureText: true,
+                                        ),
+                                      ],
                                     ),
-                                    controller: model.nimController,
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Login'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          model.loginUser();
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      labelText: 'Password',
-                                    ),
-                                    controller: model.passwordController,
-                                    obscureText: true,
-                                  ),
-                                ],
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text('Login'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    model.loginUser();
-                                  },
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: Text(
-                    "LOGIN",
-                    style: firstStyle,
+                              );
+                            },
+                          );
+                        },
+                        child: Text(
+                          "LOGIN",
+                          style: firstStyle,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
             SizedBox(
               width: 200,
             )
@@ -232,300 +234,410 @@ class _HomeViewState extends State<HomeView> {
               ),
               verticalSpaceMassive,
               verticalSpaceMassive,
-              Visibility(
-                visible: model.letterList.isNotEmpty ? true : false,
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        margin: EdgeInsets.only(left: 220),
-                        width: 400,
-                        child: Text(
-                          "TRACKING SURAT",
-                          style: secondStyle,
-                        ),
-                      ),
-                    ),
-                    verticalSpaceLarge,
-                    Container(
-                      width: double.infinity,
-                      color: Colors.orange,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          verticalSpaceMedium,
-                          Text(
-                          model.letterList.isNotEmpty ? model.letterList.last.jenisSurat! : "",
-                            style: secondStyle,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 300,
-                                child: InkWell(
-                                  onTap: () {
-                                    print("Tap Before");
-                                  },
-                                  child: Icon(
-                                    Icons.chevron_left,
-                                    color: Colors.black54,
-                                    size: 250,
-                                  ),
-                                ),
-                              ),
-                              horizontalSpaceSmall,
-                              Column(
-                                children: [
-                                  Container(
-                                    width: 200,
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                      color: model.letterList.isNotEmpty && model.letterList.last.statusSurat! == "waiting" ? Colors.deepPurple : Colors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                      child: Image.asset(
-                                        "assets/waiting.png",
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover, // Adjust as needed
-                                      ),
-                                    ),
-                                  ),
-                                  verticalSpaceSmall,
-                                  Text(
-                                    "Waiting",
-                                    style: fourthStyle,
-                                  ),
-                                ],
-                              ),
-                              horizontalSpaceSmall,
-                              Column(
-                                children: [
-                                  Container(
-                                    width: 200,
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                      color: model.letterList.isNotEmpty && model.letterList.last.statusSurat! == "process" ? Colors.deepPurple : Colors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                      child: Image.asset(
-                                        "assets/process.png",
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover, // Adjust as needed
-                                      ),
-                                    ),
-                                  ),
-                                  verticalSpaceSmall,
-                                  Text(
-                                    "Process",
-                                    style: fourthStyle,
-                                  ),
-                                ],
-                              ),
-                              horizontalSpaceSmall,
-                              Column(
-                                children: [
-                                  Container(
-                                    width: 200,
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                      color: model.letterList.isNotEmpty && model.letterList.last.statusSurat! == "finish" ? Colors.deepPurple : Colors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                      child: Image.asset(
-                                        "assets/finish.png",
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover, // Adjust as needed
-                                      ),
-                                    ),
-                                  ),
-                                  verticalSpaceSmall,
-                                  Text(
-                                    "Finish",
-                                    style: fourthStyle,
-                                  ),
-                                ],
-                              ),
-                              horizontalSpaceSmall,
-                              Container(
-                                height: 300,
-                                child: InkWell(
-                                  onTap: () {
-                                    print("Tap Next");
-                                  },
-                                  child: Icon(
-                                    Icons.chevron_right,
-                                    color: Colors.black54,
-                                    size: 250,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    verticalSpaceMassive,
-                    Center(
-                      child: Text(
-                        "HISTORY SURAT",
-                        style: secondStyle,
-                      ),
-                    ),
-                    verticalSpaceMedium,
-                    Container(
-                      margin: EdgeInsets.only(left: 100, right: 100),
-                      padding: EdgeInsets.all(8),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            width: 150,
-                            decoration: BoxDecoration(
-                                color: Colors.orange,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                              child: Text(
-                                "Disetujui",
-                                style: firstStyle,
-                              ),
-                            ),
-                          ),
-                          verticalSpaceSmall,
-                          Container(
-                            child: Container(
-                              height: 200,
-                              padding: EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Pengajuan Seminar Proposal",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                            letterSpacing: 2),
-                                      ),
-                                      verticalSpaceTiny,
-                                      Text(
-                                        "Senin, 15 Januari 2024 | 21.19 WIB",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: 2),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                      padding: EdgeInsets.only(right: 20),
-                                      child: Image.asset(
-                                        "assets/approved.png",
-                                        width: 100,
-                                        height: 100,
-                                      )),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    verticalSpaceSmall,
-                    Container(
-                      margin: EdgeInsets.only(left: 100, right: 100),
-                      padding: EdgeInsets.all(8),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            width: 150,
-                            decoration: BoxDecoration(
-                                color: Colors.orange,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                              child: Text(
-                                "Ditolak",
-                                style: firstStyle,
-                              ),
-                            ),
-                          ),
-                          verticalSpaceSmall,
-                          Container(
-                            child: Container(
-                              height: 200,
-                              padding: EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Pengajuan Seminar Proposal",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                            letterSpacing: 2),
-                                      ),
-                                      verticalSpaceTiny,
-                                      Text(
-                                        "Senin, 15 Januari 2024 | 21.19 WIB",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: 2),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 20),
-                                    child: Image.asset(
-                                      "assets/rejected.png",
-                                      width: 100,
-                                      height: 100,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // model.letterList.isNotEmpty ? Container(
+              //   // height: 1300,
+              //   width: double.infinity,
+              //   child: Column(
+              //     children: [
+              //       Align(
+              //         alignment: Alignment.centerLeft,
+              //         child: Container(
+              //           margin: EdgeInsets.only(left: 220),
+              //           width: 400,
+              //           child: Text(
+              //             "TRACKING SURAT",
+              //             style: secondStyle,
+              //           ),
+              //         ),
+              //       ),
+              //       verticalSpaceLarge,
+              //       Container(
+              //         width: double.infinity,
+              //         color: Colors.orange,
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.center,
+              //           children: [
+              //             verticalSpaceMedium,
+              //             Text(
+              //               model.letterList.isNotEmpty
+              //                   ? model.letterList[model.indexHistory].jenisSurat!
+              //                   : "",
+              //               style: secondStyle,
+              //             ),
+              //             Row(
+              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //               crossAxisAlignment: CrossAxisAlignment.center,
+              //               children: [
+              //                 Container(
+              //                   height: 300,
+              //                   child: InkWell(
+              //                     onTap: () {
+              //                       model.before();
+              //                     },
+              //                     child: Icon(
+              //                       Icons.chevron_left,
+              //                       color: Colors.black54,
+              //                       size: 250,
+              //                     ),
+              //                   ),
+              //                 ),
+              //                 horizontalSpaceSmall,
+              //                 Column(
+              //                   children: [
+              //                     Container(
+              //                       width: 200,
+              //                       height: 200,
+              //                       decoration: BoxDecoration(
+              //                         color: model.letterList.isNotEmpty &&
+              //                             model.letterList[model.indexHistory]
+              //                                 .statusSurat! ==
+              //                                 "waiting"
+              //                             ? Colors.deepPurple
+              //                             : model.letterList[model.indexHistory]
+              //                             .statusSurat! ==
+              //                             "decline" ? Colors.red : Colors.white,
+              //                         shape: BoxShape.circle,
+              //                       ),
+              //                       child: Center(
+              //                         child: Image.asset(
+              //                           "assets/waiting.png",
+              //                           width: 100,
+              //                           height: 100,
+              //                           fit: BoxFit.cover,
+              //                           color: model.letterList[model.indexHistory]
+              //                               .statusSurat! ==
+              //                               "decline" ? Colors.red : Colors.white,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     verticalSpaceSmall,
+              //                     Text(
+              //                       "Waiting",
+              //                       style: fourthStyle,
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 horizontalSpaceSmall,
+              //                 Column(
+              //                   children: [
+              //                     Container(
+              //                       width: 200,
+              //                       height: 200,
+              //                       decoration: BoxDecoration(
+              //                         color: model.letterList.isNotEmpty &&
+              //                             model.letterList[model.indexHistory]
+              //                                 .statusSurat! ==
+              //                                 "process"
+              //                             ? Colors.deepPurple
+              //                             : model.letterList[model.indexHistory]
+              //                             .statusSurat! ==
+              //                             "decline" ? Colors.red : Colors.white,
+              //                         shape: BoxShape.circle,
+              //                       ),
+              //                       child: Center(
+              //                         child: Image.asset(
+              //                           "assets/process.png",
+              //                           width: 100,
+              //                           height: 100,
+              //                           fit: BoxFit.cover,
+              //                           color: model.letterList[model.indexHistory]
+              //                               .statusSurat! ==
+              //                               "decline" ? Colors.red : Colors.white,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     verticalSpaceSmall,
+              //                     Text(
+              //                       "Process",
+              //                       style: fourthStyle,
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 horizontalSpaceSmall,
+              //                 Column(
+              //                   children: [
+              //                     Container(
+              //                       width: 200,
+              //                       height: 200,
+              //                       decoration: BoxDecoration(
+              //                         color: model.letterList.isNotEmpty &&
+              //                             model.letterList[model.indexHistory]
+              //                                 .statusSurat! ==
+              //                                 "finish"
+              //                             ? Colors.deepPurple
+              //                             : model.letterList[model.indexHistory]
+              //                             .statusSurat! ==
+              //                             "decline" ? Colors.red : Colors.white,
+              //                         shape: BoxShape.circle,
+              //                       ),
+              //                       child: Center(
+              //                         child: Image.asset(
+              //                           "assets/finish.png",
+              //                           width: 100,
+              //                           height: 100,
+              //                           fit: BoxFit.cover,
+              //                           color: model.letterList[model.indexHistory]
+              //                               .statusSurat! ==
+              //                               "decline" ? Colors.red : Colors.white,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     verticalSpaceSmall,
+              //                     Text(
+              //                       "Finish",
+              //                       style: fourthStyle,
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 horizontalSpaceSmall,
+              //                 Container(
+              //                   height: 300,
+              //                   child: InkWell(
+              //                     onTap: () {
+              //                       model.after();
+              //                     },
+              //                     child: Icon(
+              //                       Icons.chevron_right,
+              //                       color: Colors.black54,
+              //                       size: 250,
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //       verticalSpaceMassive,
+              //       Center(
+              //         child: Text(
+              //           "HISTORY SURAT",
+              //           style: secondStyle,
+              //         ),
+              //       ),
+              //       verticalSpaceMedium,
+              //       Container(
+              //         margin: EdgeInsets.only(left: 100, right: 100),
+              //         padding: EdgeInsets.all(8),
+              //         width: double.infinity,
+              //         decoration: BoxDecoration(
+              //             color: Colors.black12,
+              //             borderRadius: BorderRadius.circular(8)),
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Container(
+              //               padding: EdgeInsets.all(10),
+              //               width: 150,
+              //               decoration: BoxDecoration(
+              //                   color: Colors.orange,
+              //                   borderRadius: BorderRadius.circular(10)),
+              //               child: Center(
+              //                 child: Text(
+              //                   "Disetujui",
+              //                   style: firstStyle,
+              //                 ),
+              //               ),
+              //             ),
+              //             verticalSpaceSmall,
+              //             Container(
+              //               width: double.infinity,
+              //               height: 205,
+              //               child: model.letterListApproved.isNotEmpty
+              //                   ? ListView.builder(
+              //                 controller: model.scrollController,
+              //                 itemCount:
+              //                 model.letterListApproved.length,
+              //                 itemBuilder: (_, index) {
+              //                   return Container(
+              //                     height: 200,
+              //                     margin: EdgeInsets.only(bottom: 10),
+              //                     padding: EdgeInsets.all(16),
+              //                     decoration: BoxDecoration(
+              //                         color: Colors.white,
+              //                         borderRadius:
+              //                         BorderRadius.circular(
+              //                             12)),
+              //                     child: Row(
+              //                       mainAxisAlignment:
+              //                       MainAxisAlignment
+              //                           .spaceBetween,
+              //                       children: [
+              //                         Column(
+              //                           crossAxisAlignment:
+              //                           CrossAxisAlignment
+              //                               .start,
+              //                           children: [
+              //                             Text(
+              //                               model.letterListApproved[index].jenisSurat!,
+              //                               style: TextStyle(
+              //                                   color: Colors.black,
+              //                                   fontSize: 20,
+              //                                   fontWeight:
+              //                                   FontWeight.w700,
+              //                                   letterSpacing: 2),
+              //                             ),
+              //                             Text(
+              //                               "Diajukan pada ${model.letterListApproved[index].tanggalPengajuan!}",
+              //                               style: TextStyle(
+              //                                   color: Colors.black,
+              //                                   fontSize: 18,
+              //                                   fontWeight:
+              //                                   FontWeight.w400,
+              //                                   letterSpacing: 2),
+              //                             ),
+              //                             verticalSpaceSmall,
+              //                             Text(
+              //                               "Keterangan ",
+              //                               style: TextStyle(
+              //                                   color: Colors.black,
+              //                                   fontSize: 18,
+              //                                   fontWeight:
+              //                                   FontWeight.w700,
+              //                                   letterSpacing: 2),
+              //                             ),
+              //                             Text(
+              //                               model.letterListApproved[index].keterangan!,
+              //                               style: TextStyle(
+              //                                   color: Colors.black,
+              //                                   fontSize: 18,
+              //                                   fontWeight:
+              //                                   FontWeight.w400,
+              //                                   letterSpacing: 2),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                         Padding(
+              //                             padding: EdgeInsets.only(
+              //                                 right: 20),
+              //                             child: Image.asset(
+              //                               "assets/approved.png",
+              //                               width: 100,
+              //                               height: 100,
+              //                             )),
+              //                       ],
+              //                     ),
+              //                   );
+              //                 },
+              //               )
+              //                   : Center(),
+              //             )
+              //           ],
+              //         ),
+              //       ),
+              //       verticalSpaceSmall,
+              //       Container(
+              //         margin: EdgeInsets.only(left: 100, right: 100),
+              //         padding: EdgeInsets.all(8),
+              //         width: double.infinity,
+              //         decoration: BoxDecoration(
+              //             color: Colors.black12,
+              //             borderRadius: BorderRadius.circular(8)),
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Container(
+              //               padding: EdgeInsets.all(10),
+              //               width: 150,
+              //               decoration: BoxDecoration(
+              //                   color: Colors.orange,
+              //                   borderRadius: BorderRadius.circular(10)),
+              //               child: Center(
+              //                 child: Text(
+              //                   "Ditolak",
+              //                   style: firstStyle,
+              //                 ),
+              //               ),
+              //             ),
+              //             verticalSpaceSmall,
+              //             Container(
+              //               width: double.infinity,
+              //               height: 205,
+              //               child: model.letterListDeclined.isNotEmpty
+              //                   ? ListView.builder(
+              //                 controller: model.scrollController,
+              //                 itemCount:
+              //                 model.letterListDeclined.length,
+              //                 itemBuilder: (_, index) {
+              //                   return Container(
+              //                     height: 200,
+              //                     margin: EdgeInsets.only(bottom: 10),
+              //                     padding: EdgeInsets.all(16),
+              //                     decoration: BoxDecoration(
+              //                         color: Colors.white,
+              //                         borderRadius:
+              //                         BorderRadius.circular(
+              //                             12)),
+              //                     child: Row(
+              //                       mainAxisAlignment:
+              //                       MainAxisAlignment
+              //                           .spaceBetween,
+              //                       children: [
+              //                         Column(
+              //                           crossAxisAlignment:
+              //                           CrossAxisAlignment
+              //                               .start,
+              //                           children: [
+              //                             Text(
+              //                               model.letterListDeclined[index].jenisSurat!,
+              //                               style: TextStyle(
+              //                                   color: Colors.black,
+              //                                   fontSize: 20,
+              //                                   fontWeight:
+              //                                   FontWeight.w700,
+              //                                   letterSpacing: 2),
+              //                             ),
+              //                             Text(
+              //                               "Diajukan pada ${model.letterListDeclined[index].tanggalPengajuan!}",
+              //                               style: TextStyle(
+              //                                   color: Colors.black,
+              //                                   fontSize: 18,
+              //                                   fontWeight:
+              //                                   FontWeight.w400,
+              //                                   letterSpacing: 2),
+              //                             ),
+              //                             verticalSpaceSmall,
+              //                             Text(
+              //                               "Keterangan ",
+              //                               style: TextStyle(
+              //                                   color: Colors.black,
+              //                                   fontSize: 18,
+              //                                   fontWeight:
+              //                                   FontWeight.w700,
+              //                                   letterSpacing: 2),
+              //                             ),
+              //                             Text(
+              //                               model.letterListDeclined[index].keterangan!,
+              //                               style: TextStyle(
+              //                                   color: Colors.black,
+              //                                   fontSize: 18,
+              //                                   fontWeight:
+              //                                   FontWeight.w400,
+              //                                   letterSpacing: 2),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                         Padding(
+              //                             padding: EdgeInsets.only(
+              //                                 right: 20),
+              //                             child: Image.asset(
+              //                               "assets/rejected.png",
+              //                               width: 100,
+              //                               height: 100,
+              //                             )),
+              //                       ],
+              //                     ),
+              //                   );
+              //                 },
+              //               )
+              //                   : Center(),
+              //             )
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ) : Center(),
               verticalSpaceMassive,
               Container(
                 padding: EdgeInsets.all(32),

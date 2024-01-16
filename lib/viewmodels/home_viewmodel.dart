@@ -20,17 +20,22 @@ class HomeViewModel extends BaseModel {
   locator<LocalStorageService>();
   final NavigationService _navigationService = locator<NavigationService>();
 
+  final ScrollController scrollController = ScrollController();
   final formKey = GlobalKey<FormState>();
   final nimController = TextEditingController();
   final passwordController = TextEditingController();
 
+  int indexHistory = 0;
   bool loginStatus = false;
 
   List<SuratList> letterList = [];
+  List<SuratList> letterListApproved = [];
+  List<SuratList> letterListDeclined = [];
 
   void statusLogged() async {
     loginStatus = await _localStorageService.getBool(localStatusLogin) ?? false;
     if (loginStatus == true) {
+      _navigationService.replaceTo(homeViewRoute);
       getLetterData();
     }
     setBusy(false);
@@ -108,9 +113,57 @@ class HomeViewModel extends BaseModel {
               statusSurat: value.statusSurat,
               v: value.v,
               keterangan: value.keterangan));
+          if(value.statusSurat == "finish"){
+            letterListApproved.add(SuratList(
+                id: value.id,
+                nim: value.nim,
+                nomorSurat: value.nomorSurat,
+                tanggalPengajuan: value.tanggalPengajuan,
+                jenisSurat: value.jenisSurat,
+                namaPemohon: value.namaPemohon,
+                tujuan: value.tujuan,
+                statusSurat: value.statusSurat,
+                v: value.v,
+                keterangan: value.keterangan));
+          }
+          if(value.statusSurat == "decline"){
+            letterListDeclined.add(SuratList(
+                id: value.id,
+                nim: value.nim,
+                nomorSurat: value.nomorSurat,
+                tanggalPengajuan: value.tanggalPengajuan,
+                jenisSurat: value.jenisSurat,
+                namaPemohon: value.namaPemohon,
+                tujuan: value.tujuan,
+                statusSurat: value.statusSurat,
+                v: value.v,
+                keterangan: value.keterangan));
+          }
         }
+        letterListApproved = letterListApproved.reversed.toList();
+        letterListDeclined = letterListDeclined.reversed.toList();
+        indexHistory = letterList.length - 1;
         setBusy(false);
       }
     }
+  }
+
+  void before(){
+    if(indexHistory > 0){
+      indexHistory -= 1;
+      setBusy(false);
+    }
+    print("[Kurang] $indexHistory");
+  }
+
+  Future<void> after() async {
+    print("[letter length] ${letterList.length}");
+    if(letterList.length - 1 == indexHistory){
+      _alertService.warningAlert("Perhatian", "Semua data telah ditampilkan", () {_navigationService.pop();});
+    } else {
+      indexHistory += 1;
+      setBusy(false);
+    }
+    print("[Tambah] $indexHistory");
   }
 }

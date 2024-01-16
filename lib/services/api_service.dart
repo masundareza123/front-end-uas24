@@ -46,10 +46,11 @@ class ApiService {
       String nomorTelepon,
       ) async {
     final client = http.Client();
+    print("object");
     try {
       final url = Uri.parse('$baseUrlUser/surat');
       var body = jsonEncode({
-        {
+
           "nim": nim,
           "nomor_surat": nomorSurat,
           "tanggal_pengajuan": tanggalPengajuan,
@@ -59,7 +60,7 @@ class ApiService {
           "status_surat": statusSurat,
           "keterangan": keterangan,
           "nomor_telepon": nomorTelepon
-        }
+
       });
       final response = await client.post(
         headers: {
@@ -72,7 +73,8 @@ class ApiService {
       final responseData = createLetterResponseModelFromJson(response.body);
       print(response.body);
       return responseData;
-    } catch (e) {
+    } catch (e, s) {
+      print("[Create Surat $e | $s");
       return null;
     }
   }
