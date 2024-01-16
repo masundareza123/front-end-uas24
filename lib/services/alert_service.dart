@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:uas_ppl_2024/locator.dart';
 
 import 'navigation_service.dart';
 
 class AlertService {
-  final NavigationService _navigationService = NavigationService();
+  final NavigationService _navigationService = locator<NavigationService>();
 
   void successAlert(String title, String desc, VoidCallback onCancel) {
     showDialog(
@@ -38,6 +39,9 @@ class AlertService {
           actions: [
             TextButton(
               onPressed: onCancel,
+              style: TextButton.styleFrom(
+                  backgroundColor: Colors.green
+              ),
               child: const Text(
                 'Tutup',
                 textAlign: TextAlign.center,
@@ -112,7 +116,7 @@ class AlertService {
       builder: (BuildContext context) => WillPopScope(
         onWillPop: () async => false,
         child: AlertDialog(
-          icon: Image.asset('assets/warning.png', height: 80, width: 80,),
+          icon: SvgPicture.asset('assets/warning.svg', width: 80, height: 80,),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15)
           ),

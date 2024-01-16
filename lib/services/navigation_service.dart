@@ -23,3 +23,4 @@ class NavigationService {
         ?.pushNamedAndRemoveUntil(routeName, (route) => false);
   }
 }
+

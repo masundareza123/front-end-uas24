@@ -7,20 +7,19 @@ import 'dart:convert';
 import 'package:uas_ppl_2024/models/login_response_model.dart';
 
 class ApiService {
-  final baseUrlUser = "192.168.10.165/api";
+  final baseUrlUser = "http://reza.software-creative-indonesia.my.id/api";
 
   Future<LoginResponseModel?> login(
     String nim,
     String password,
   ) async {
-    print(nim);
-    print(password);
     final client = http.Client();
     try {
       final url = Uri.parse('$baseUrlUser/login');
       var body = jsonEncode({"nim": nim, "password": password});
       final response = await client.post(
         headers: {
+          "Access-Control-Allow-Origin": "*",
           'Content-Type': 'application/json',
         },
         url,
@@ -82,9 +81,10 @@ class ApiService {
         url,
       );
       final responseData = getLetterResponseModelFromJson(response.body);
-
+      print(response.body);
       return responseData;
-    } catch (e) {
+    } catch (e,s) {
+      print("[Get Letter] $e | $s");
       return null;
     }
   }

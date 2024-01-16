@@ -2,7 +2,6 @@
 //
 //     final loginResponseModel = loginResponseModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 LoginResponseModel loginResponseModelFromJson(String str) => LoginResponseModel.fromJson(json.decode(str));
@@ -10,14 +9,14 @@ LoginResponseModel loginResponseModelFromJson(String str) => LoginResponseModel.
 String loginResponseModelToJson(LoginResponseModel data) => json.encode(data.toJson());
 
 class LoginResponseModel {
-  bool success;
-  String message;
-  String token;
+  bool? success;
+  String? message;
+  String? token;
 
   LoginResponseModel({
-    required this.success,
-    required this.message,
-    required this.token,
+    this.success,
+    this.message,
+    this.token,
   });
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) => LoginResponseModel(
