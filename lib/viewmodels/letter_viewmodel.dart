@@ -108,23 +108,27 @@ class LetterViewModel extends BaseModel {
       print(namaPemohon);
       final data = await _apiService.createLetter(
           nim!,
-          "$nim-${DateTime.now()}",
+          "$nim-${DateTime.now().toString()}",
           formatDateTimeNow(),
           "Surat Dispensasi",
           namaPemohon!,
           "-",
           "waiting",
           "${namaDosenController.text} | ${dateController.text}",
-          nomorTelepon!);
-      if (data!.success == true) {
-        _alertService.successAlert("Berhasil", "Surat pengajuan telah dibuat",
-            () {
-          _navigationService.replaceTo(homeViewRoute);
-        });
+          nomorTelepon!,);
+      if(data == null){
+        _alertService.failedAlert("Gagal", "Internal server error", () {_navigationService.pop();});
       } else {
-        _alertService.failedAlert("Gagal", data.message, () {
-          _navigationService.pop();
-        });
+        if (data.success == true) {
+          _alertService.successAlert("Berhasil", "Surat pengajuan telah dibuat",
+                  () {
+                _navigationService.replaceTo(homeViewRoute);
+              });
+        } else {
+          _alertService.failedAlert("Gagal", data.message!, () {
+            _navigationService.pop();
+          });
+        }
       }
     }
   }

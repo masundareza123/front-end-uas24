@@ -63,6 +63,7 @@ class ApiService {
       });
       final response = await client.post(
         headers: {
+          "Access-Control-Allow-Origin": "*",
           'Content-Type': 'application/json',
         },
         url,
