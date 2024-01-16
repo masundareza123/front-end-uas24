@@ -17,7 +17,7 @@ class HomeViewModel extends BaseModel {
   final AlertService _alertService = locator<AlertService>();
   final ApiService _apiService = locator<ApiService>();
   final LocalStorageService _localStorageService =
-  locator<LocalStorageService>();
+      locator<LocalStorageService>();
   final NavigationService _navigationService = locator<NavigationService>();
 
   final ScrollController scrollController = ScrollController();
@@ -32,10 +32,11 @@ class HomeViewModel extends BaseModel {
   List<SuratList> letterListApproved = [];
   List<SuratList> letterListDeclined = [];
 
+  Color colors = Colors.black;
+
   void statusLogged() async {
     loginStatus = await _localStorageService.getBool(localStatusLogin) ?? false;
     if (loginStatus == true) {
-      _navigationService.replaceTo(homeViewRoute);
       getLetterData();
     }
     setBusy(false);
@@ -64,9 +65,12 @@ class HomeViewModel extends BaseModel {
           final json = jsonEncode(decodedToken);
           final response = loginTokenModelFromJson(json);
           await _localStorageService.setString(localNimUser, response.nim!);
-          await _localStorageService.setString(localNameUser, response.namaLengkap!);
-          await _localStorageService.setString(localProdiUser, response.programStudi!);
-          await _localStorageService.setString(localPhoneNumberUser, response.nomorTelepon!);
+          await _localStorageService.setString(
+              localNameUser, response.namaLengkap!);
+          await _localStorageService.setString(
+              localProdiUser, response.programStudi!);
+          await _localStorageService.setString(
+              localPhoneNumberUser, response.nomorTelepon!);
           _alertService.successAlert("Berhasil", "Anda telah login", () {
             _navigationService.replaceTo(homeViewRoute);
             setBusy(false);
@@ -81,10 +85,13 @@ class HomeViewModel extends BaseModel {
   }
 
   void logOut() async {
-    _alertService.choiceAlert("Logout", "Keluar dari halaman ini?", "Yes", () async {
+    _alertService.choiceAlert("Logout", "Keluar dari halaman ini?", "Yes",
+        () async {
       await _localStorageService.clearStorage();
       _navigationService.replaceTo(homeViewRoute);
-    }, () {_navigationService.pop();});
+    }, () {
+      _navigationService.pop();
+    });
   }
 
   void getLetterData() async {
@@ -113,7 +120,7 @@ class HomeViewModel extends BaseModel {
               statusSurat: value.statusSurat,
               v: value.v,
               keterangan: value.keterangan));
-          if(value.statusSurat == "finish"){
+          if (value.statusSurat == "finish") {
             letterListApproved.add(SuratList(
                 id: value.id,
                 nim: value.nim,
@@ -126,7 +133,7 @@ class HomeViewModel extends BaseModel {
                 v: value.v,
                 keterangan: value.keterangan));
           }
-          if(value.statusSurat == "decline"){
+          if (value.statusSurat == "decline") {
             letterListDeclined.add(SuratList(
                 id: value.id,
                 nim: value.nim,
@@ -148,9 +155,13 @@ class HomeViewModel extends BaseModel {
     }
   }
 
-  void before(){
-    if(indexHistory > 0){
+  void before() {
+    if (indexHistory > 0) {
       indexHistory -= 1;
+      colors = Colors.black;
+      setBusy(false);
+    } else {
+      colors = Colors.black12;
       setBusy(false);
     }
     print("[Kurang] $indexHistory");
@@ -158,8 +169,11 @@ class HomeViewModel extends BaseModel {
 
   Future<void> after() async {
     print("[letter length] ${letterList.length}");
-    if(letterList.length - 1 == indexHistory){
-      _alertService.warningAlert("Perhatian", "Semua data telah ditampilkan", () {_navigationService.pop();});
+    if (letterList.length - 1 == indexHistory) {
+      _alertService.warningAlert("Perhatian", "Semua data telah ditampilkan",
+          () {
+        _navigationService.pop();
+      });
     } else {
       indexHistory += 1;
       setBusy(false);

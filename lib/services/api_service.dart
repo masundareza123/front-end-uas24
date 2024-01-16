@@ -83,7 +83,7 @@ class ApiService {
     final client = http.Client();
     try {
       final url = Uri.parse('$baseUrlUser/surat/$nim');
-      final response = await client.get(
+      final response = await client.post(
         url,
       );
       final responseData = getLetterResponseModelFromJson(response.body);

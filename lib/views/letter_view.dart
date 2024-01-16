@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uas_ppl_2024/const.dart';
 import 'package:uas_ppl_2024/viewmodels/letter_viewmodel.dart';
@@ -159,7 +161,7 @@ class _LetterViewState extends State<LetterView> {
                                             child: Container(
                                               height: 400,
                                               child: AlertDialog(
-                                                title: Text('Form Login'),
+                                                title: Text('Surat Dispensasi'),
                                                 content: Column(
                                                   children: <Widget>[
                                                     TextFormField(
@@ -252,7 +254,40 @@ class _LetterViewState extends State<LetterView> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return UnconstrainedBox(
+                                            child: Container(
+                                              height: 400,
+                                              child: AlertDialog(
+                                                title: Text('Surat Penundaan Pembayaran'),
+                                                content: Column(
+                                                  children: <Widget>[
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Total Pembayaran',
+                                                      ),
+                                                      controller: model.totalPembayaranController,
+                                                    ),
+                                                  ],
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: Text('Ajukan'),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                      model.createLetterPenundaanPembayaran();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                     child: Container(
                                       width: 100,
                                       padding: EdgeInsets.all(4),
@@ -311,7 +346,46 @@ class _LetterViewState extends State<LetterView> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return UnconstrainedBox(
+                                            child: Container(
+                                              height: 400,
+                                              child: AlertDialog(
+                                                title: Text('Surat Pengajuan Kerja Praktik'),
+                                                content: Column(
+                                                  children: <Widget>[
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Nama Perusahaan',
+                                                      ),
+                                                      controller: model.tempatKpController,
+                                                    ),
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Alamat Perusahaan'
+                                                      ),
+                                                      controller: model.alamatKpController,
+                                                    )
+                                                  ],
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: Text('Ajukan'),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                      model.createLetterKerjaPraktik();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                     child: Container(
                                       width: 100,
                                       padding: EdgeInsets.all(4),
@@ -370,7 +444,46 @@ class _LetterViewState extends State<LetterView> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return UnconstrainedBox(
+                                            child: Container(
+                                              height: 400,
+                                              child: AlertDialog(
+                                                title: Text('Surat Pengajuan Penelitian'),
+                                                content: Column(
+                                                  children: <Widget>[
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Judul Penelitian',
+                                                      ),
+                                                      controller: model.judulPenelitianController,
+                                                    ),
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Tempat Penelitian'
+                                                      ),
+                                                      controller: model.tempatPenelitianController,
+                                                    )
+                                                  ],
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: Text('Ajukan'),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                      model.createLetterPenelitian();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                     child: Container(
                                       width: 100,
                                       padding: EdgeInsets.all(4),
@@ -440,7 +553,93 @@ class _LetterViewState extends State<LetterView> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return UnconstrainedBox(
+                                            child: Container(
+                                              height: 440,
+                                              child: AlertDialog(
+                                                title: Text('Surat Peminjaman Kelas'),
+                                                content: Column(
+                                                  children: <Widget>[
+                                                    TextFormField(
+                                                      readOnly: true,
+                                                      controller: model.awalPeminjamanController,
+                                                      onTap: () {
+                                                        DatePicker.showDateTimePicker(
+                                                          context,
+                                                          showTitleActions: true,
+                                                          onConfirm: (date) {
+                                                            setState(() {
+                                                              model.startDate = date;
+                                                              model.awalPeminjamanController.text =
+                                                                  DateFormat('yyyy-MM-dd HH:mm').format(model.startDate);
+                                                            });
+                                                          },
+
+                                                          currentTime: DateTime.now(),
+                                                            locale: LocaleType.id
+                                                        );
+                                                      },
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Waktu Mulai',
+                                                        suffixIcon: Icon(Icons.calendar_today),
+                                                      ),
+                                                    ),
+                                                    TextFormField(
+                                                      readOnly: true,
+                                                      controller: model.akhirPeminjamanController,
+                                                      onTap: () {
+                                                        DatePicker.showDateTimePicker(
+                                                          context,
+                                                          showTitleActions: true,
+                                                          onConfirm: (date) {
+                                                            setState(() {
+                                                              model.endDate = date;
+                                                              model.akhirPeminjamanController.text =
+                                                                  DateFormat('yyyy-MM-dd HH:mm').format(model.endDate);
+                                                            });
+                                                          },
+                                                          currentTime: DateTime.now(),
+                                                            locale: LocaleType.id
+                                                        );
+                                                      },
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Waktu Selesai',
+                                                        suffixIcon: Icon(Icons.calendar_today),
+                                                      ),
+                                                    ),
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                          labelText: 'Ruangan Yang Dipinjam'
+                                                      ),
+                                                      controller: model.ruanganController,
+                                                    ),
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                          labelText: 'Tujuan Peminjaman'
+                                                      ),
+                                                      controller: model.tujuanPeminjamanController,
+                                                    )
+                                                  ],
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: Text('Ajukan'),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                      model.createLetterPeminjamanKelas();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                     child: Container(
                                       width: 100,
                                       padding: EdgeInsets.all(4),
@@ -499,7 +698,46 @@ class _LetterViewState extends State<LetterView> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return UnconstrainedBox(
+                                            child: Container(
+                                              height: 400,
+                                              child: AlertDialog(
+                                                title: Text('Surat Perbaikan Nilai'),
+                                                content: Column(
+                                                  children: <Widget>[
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Mata Kuliah',
+                                                      ),
+                                                      controller: model.mataKuliahController,
+                                                    ),
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                          labelText: 'Semester'
+                                                      ),
+                                                      controller: model.semesterController,
+                                                    )
+                                                  ],
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: Text('Ajukan'),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                      model.createLetterPerbaikanNilai();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                     child: Container(
                                       width: 100,
                                       padding: EdgeInsets.all(4),
@@ -558,7 +796,40 @@ class _LetterViewState extends State<LetterView> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return UnconstrainedBox(
+                                            child: Container(
+                                              height: 400,
+                                              child: AlertDialog(
+                                                title: Text('Surat Permohonan'),
+                                                content: Column(
+                                                  children: <Widget>[
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Keterangan',
+                                                      ),
+                                                      controller: model.tujuanController,
+                                                    ),
+                                                  ],
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: Text('Ajukan'),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                      model.createLetterPermohonan();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                     child: Container(
                                       width: 100,
                                       padding: EdgeInsets.all(4),
@@ -617,7 +888,40 @@ class _LetterViewState extends State<LetterView> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return UnconstrainedBox(
+                                            child: Container(
+                                              height: 400,
+                                              child: AlertDialog(
+                                                title: Text('Surat Pengunduran Diri'),
+                                                content: Column(
+                                                  children: <Widget>[
+                                                    TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Alasan',
+                                                      ),
+                                                      controller: model.alasanController,
+                                                    ),
+                                                  ],
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: Text('Ajukan'),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                      model.createLetterPengunduranDiri();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                     child: Container(
                                       width: 100,
                                       padding: EdgeInsets.all(4),
