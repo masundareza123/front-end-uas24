@@ -36,26 +36,29 @@ class ApiService {
 
   Future<CreateLetterResponseModel?> createLetter(
       String nim,
-      String letterNumber,
-      String applyDate,
-      String letterType,
-      String applicantName,
-      String destination,
-      String letterStatus,
-      String description) async {
+      String nomorSurat,
+      String tanggalPengajuan,
+      String jenisSurat,
+      String namaPemohon,
+      String tujuan,
+      String statusSurat,
+      String keterangan,
+      String nomorTelepon,
+      ) async {
     final client = http.Client();
     try {
       final url = Uri.parse('$baseUrlUser/surat');
       var body = jsonEncode({
         {
-          "nim": "20211320016",
-          "nomor_surat": "101",
-          "tanggal_pengajuan": "2024-01-15",
-          "jenis_surat": "Surat Penundaan Pembayaran",
-          "nama_pemohon": "Muhammad Rizki Fahreza",
-          "tujuan": "WR 2 Keuangan",
-          "status_surat": "Pending",
-          "keterangan": "Rp. 180000"
+          "nim": nim,
+          "nomor_surat": nomorSurat,
+          "tanggal_pengajuan": tanggalPengajuan,
+          "jenis_surat": jenisSurat,
+          "nama_pemohon": namaPemohon,
+          "tujuan": tujuan,
+          "status_surat": statusSurat,
+          "keterangan": keterangan,
+          "nomor_telepon": nomorTelepon
         }
       });
       final response = await client.post(
@@ -66,7 +69,7 @@ class ApiService {
         body: body,
       );
       final responseData = createLetterResponseModelFromJson(response.body);
-
+      print(response.body);
       return responseData;
     } catch (e) {
       return null;

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:uas_ppl_2024/services/navigation_service.dart';
 import 'package:uas_ppl_2024/views/home_view.dart';
 
@@ -9,11 +10,9 @@ import 'locator.dart';
 import 'routes.dart';
 
 Future<void> main() async {
-  runZoned(
-        () {
-      runApp(const MyApp());
-    },
-  );
+runZoned(() async {
+    await initializeDateFormatting('id_ID', null).then((_) => runApp(const MyApp()));
+  });
   setUpLocator();
   // await FlutterMapTileCaching.initialise();
   // await FMTC.instance('mapStore').manage.createAsync();

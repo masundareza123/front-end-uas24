@@ -3,6 +3,7 @@
 //     final getLetterResponseModel = getLetterResponseModelFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:math';
 
 GetLetterResponseModel getLetterResponseModelFromJson(String str) => GetLetterResponseModel.fromJson(json.decode(str));
 
@@ -32,7 +33,7 @@ class SuratList {
   String? id;
   String? nim;
   String? nomorSurat;
-  DateTime? tanggalPengajuan;
+  String? tanggalPengajuan;
   String? jenisSurat;
   String? namaPemohon;
   String? tujuan;
@@ -57,7 +58,7 @@ class SuratList {
     id: json["_id"],
     nim: json["nim"],
     nomorSurat: json["nomor_surat"],
-    tanggalPengajuan: json["tanggal_pengajuan"] == null ? null : DateTime.parse(json["tanggal_pengajuan"]),
+    tanggalPengajuan: json["tanggal_pengajuan"],
     jenisSurat: json["jenis_surat"],
     namaPemohon: json["nama_pemohon"],
     tujuan: json["tujuan"],
@@ -70,7 +71,7 @@ class SuratList {
     "_id": id,
     "nim": nim,
     "nomor_surat": nomorSurat,
-    "tanggal_pengajuan": "${tanggalPengajuan!.year.toString().padLeft(4, '0')}-${tanggalPengajuan!.month.toString().padLeft(2, '0')}-${tanggalPengajuan!.day.toString().padLeft(2, '0')}",
+    "tanggal_pengajuan": tanggalPengajuan,
     "jenis_surat": jenisSurat,
     "nama_pemohon": namaPemohon,
     "tujuan": tujuan,

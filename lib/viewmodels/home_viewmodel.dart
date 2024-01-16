@@ -36,6 +36,10 @@ class HomeViewModel extends BaseModel {
     setBusy(false);
   }
 
+  void navigateTo(routeName) {
+    _navigationService.replaceTo(routeName);
+  }
+
   void loginUser() async {
     if (nimController.text.isEmpty || passwordController.text.isEmpty) {
       _alertService.warningAlert("Peringatan", "Isi Semua Form Yang ada", () {

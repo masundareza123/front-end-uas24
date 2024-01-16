@@ -59,7 +59,7 @@ class _HomeViewState extends State<HomeView> {
                   alignment: Alignment.center,
                   child: InkWell(
                     onTap: () {
-                      print('Action tapped');
+                      model.navigateTo(homeViewRoute);
                     },
                     child: Text(
                       'BERANDA',
@@ -233,13 +233,13 @@ class _HomeViewState extends State<HomeView> {
               verticalSpaceMassive,
               verticalSpaceMassive,
               Visibility(
-                visible: model.loginStatus,
+                visible: model.letterList.isNotEmpty ? true : false,
                 child: Column(
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Container(
-                        margin: EdgeInsets.only(left: 310),
+                        margin: EdgeInsets.only(left: 220),
                         width: 400,
                         child: Text(
                           "TRACKING SURAT",
@@ -256,7 +256,7 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                           verticalSpaceMedium,
                           Text(
-                            model.letterList.last.jenisSurat ?? "",
+                          model.letterList.isNotEmpty ? model.letterList.last.jenisSurat! : "",
                             style: secondStyle,
                           ),
                           Row(
@@ -283,7 +283,7 @@ class _HomeViewState extends State<HomeView> {
                                     width: 200,
                                     height: 200,
                                     decoration: BoxDecoration(
-                                      color: Colors.deepPurple,
+                                      color: model.letterList.isNotEmpty && model.letterList.last.statusSurat! == "waiting" ? Colors.deepPurple : Colors.white,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Center(
@@ -309,7 +309,7 @@ class _HomeViewState extends State<HomeView> {
                                     width: 200,
                                     height: 200,
                                     decoration: BoxDecoration(
-                                      color: Colors.deepPurple,
+                                      color: model.letterList.isNotEmpty && model.letterList.last.statusSurat! == "process" ? Colors.deepPurple : Colors.white,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Center(
@@ -335,7 +335,7 @@ class _HomeViewState extends State<HomeView> {
                                     width: 200,
                                     height: 200,
                                     decoration: BoxDecoration(
-                                      color: Colors.deepPurple,
+                                      color: model.letterList.isNotEmpty && model.letterList.last.statusSurat! == "finish" ? Colors.deepPurple : Colors.white,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Center(
